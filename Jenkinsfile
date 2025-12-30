@@ -9,7 +9,8 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/YOURUSERNAME/devops-assessment.git'
+                git 'git https://github.com/MaheshrajV/jenkins-docker-pipeline-mastery.git'
+'
             }
         }
 
