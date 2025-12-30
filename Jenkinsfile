@@ -21,11 +21,10 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                dir('app') {
-                    sh 'pytest -q'
-                }
-            }
-        }
+                sh 'PYTHONPATH=. pytest -q'
+          }
+       }
+
 
         stage('Build Docker Image') {
             steps {
