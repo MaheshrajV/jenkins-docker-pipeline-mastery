@@ -9,7 +9,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'git https://github.com/MaheshrajV/jenkins-docker-pipeline-mastery.git'
+                git 'https://github.com/MaheshrajV/jenkins-docker-pipeline-mastery.git'
             }
         }
 
