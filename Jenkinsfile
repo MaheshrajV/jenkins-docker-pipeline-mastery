@@ -1,7 +1,6 @@
 pipeline {
-    agent {
-        docker { image 'python:3.10-slim' }
-    }
+
+    agent any
 
     stages {
 
@@ -11,20 +10,16 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Install & Test') {
             steps {
-                dir('app') {
-                    sh 'pip install -r requirements.txt'
+                script {
+                    docker.image('python:3.10-slim').inside {
+                        sh 'pip install -r app/requirements.txt'
+                        sh 'PYTHONPATH=. pytest -q'
+                    }
                 }
             }
         }
-
-        stage('Run Tests') {
-            steps {
-                sh 'PYTHONPATH=. pytest -q'
-          }
-       }
-
 
         stage('Build Docker Image') {
             steps {
