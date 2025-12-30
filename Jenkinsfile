@@ -1,15 +1,13 @@
 pipeline {
-    agent any
-
-    environment {
-        DOCKER_IMAGE = "sample-devops-app"
+    agent {
+        docker { image 'python:3.10-slim' }
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/MaheshrajV/jenkins-docker-pipeline-mastery.git'
+                checkout scm
             }
         }
 
@@ -32,7 +30,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('app') {
-                    sh "docker build -t ${DOCKER_IMAGE}:latest ."
+                    sh 'docker build -t sample-devops-app:latest .'
                 }
             }
         }
@@ -40,17 +38,8 @@ pipeline {
         stage('Run Container') {
             steps {
                 sh 'docker rm -f app || true'
-                sh "docker run -d --name app -p 5000:5000 ${DOCKER_IMAGE}:latest"
+                sh 'docker run -d --name app -p 5000:5000 sample-devops-app:latest'
             }
-        }
-    }
-
-    post {
-        success {
-            echo "Build Passed!"
-        }
-        failure {
-            echo "Build Failed!"
         }
     }
 }
